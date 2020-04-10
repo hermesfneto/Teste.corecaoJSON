@@ -26,15 +26,18 @@ tr:nth-child(even) {
 div{
     text-align: center;
 }
+p{
+  text-align: center;
+}
 </style>
 </head>
 <body>
-<p>CLICAR EM "CATEGORY" OU "ID" PARA ORDENAR</p>
 <p id='EstoqueA'></p>
 <p id='EstoqueEdm'></p>
 <p id='EstoqueEn'></p>
 <p id='EstoqueP'></p>
-
+<hr>
+<p><b>CLICAR EM "CATEGORY" OU "ID" PARA ORDENAR</b></p>
 <div id="div_table">
 <table id="myTable" class="table">
     <tbody>
@@ -43,7 +46,6 @@ div{
     <th>Name</th>
     <th>Price</th>
     <th>Quantity</th>
-    <th>Estoque</th>
     </tbody>
     <tbody id="table_body"></tbody>
 </table>
@@ -56,8 +58,7 @@ div{
         '<td>' + jcontent[i].id + '</td>' +
         '<td>' + normalize(jcontent[i].name) + '</td>' +
         '<td>' + number(jcontent[i].price).toLocaleString('pt-BR', { minimumFractionDigits: 2}) + '</td>' +
-        '<td>' + quantity(jcontent[i].quantity) + '</td>' +
-        '<td>' + (quantity(jcontent[i].quantity) * number(jcontent[i].price)).toLocaleString('pt-BR', { minimumFractionDigits: 2}) + '</td>'
+        '<td>' + quantity(jcontent[i].quantity) + '</td>'
         '</tr>';
 }
 var table_body_element = document.getElementById('table_body');
