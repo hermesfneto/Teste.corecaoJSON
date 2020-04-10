@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="./broken-database.json"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<style>
+table {
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th {
+  cursor: pointer;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2
+}
+div{
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<p>CLICAR EM "CATEGORY" OU "ID" PARA ORDENAR.</p>
+<p id='EstoqueA'></p>
+<p id='EstoqueEdm'></p>
+<p id='EstoqueEn'></p>
+<p id='EstoqueP'></p>
+
+<div id="div_table">
+<table id="myTable" class="table">
+    <tbody>
+    <th onclick="sortTable(0)">Category</th>
+    <th onclick="sortTable(1)">ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Estoque</th>
+    </tbody>
+    <tbody id="table_body"></tbody>
+</table>
+</div>
+<script>
+    var row_data = ''
+    for(i = 0; i < jcontent.length; i++){
+        var row_data = row_data + '<tr>' +
+        '<td>' + jcontent[i].category + '</td>' +
+        '<td>' + jcontent[i].id + '</td>' +
+        '<td>' + normalize(jcontent[i].name) + '</td>' +
+        '<td>' + number(jcontent[i].price).toLocaleString('pt-BR', { minimumFractionDigits: 2}) + '</td>' +
+        '<td>' + quantity(jcontent[i].quantity) + '</td>' +
+        '<td>' + (quantity(jcontent[i].quantity) * number(jcontent[i].price)).toLocaleString('pt-BR', { minimumFractionDigits: 2}) + '</td>'
+        '</tr>';
+}
+var table_body_element = document.getElementById('table_body');
+table_body_element.innerHTML = row_data;
+document.getElementById('myTable').appendChild(table_body_element);
+  
+    function normalize(input) {
+        return input.replace(/ø/gi, "o")
+            .replace(/æ/gi, "a")
+            .replace(/¢/gi, "c")
+            .replace(/ß/gi, "b");
+    }
+    function number(input) {
+        return parseFloat(input)
+    }
+    function quantity(input) {
+        if (input == null) {
+            return 0;
+        } else {
+            return input;
+        }
+    }
+
+//Código importado de https://www.w3schools.com/howto/howto_js_sort_table.asp
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("myTable");
+  switching = true;
+  dir = "asc";
+  
+  while (switching) {
+    
+    switching = false;
+    rows = table.rows;
+   
+    for (i = 1; i < (rows.length - 1); i++) {
+      
+      shouldSwitch = false;
+      
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+         
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      
+      switchcount ++;
+    } else {
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+<script src="script2.js"></script>
+</body>
+<div>
+    <input type="button" value="Imprimir" onclick="window.print()">
+</div>
+<div>
+
+</div>
+</html>
